@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include <shared/args.h>
 
 int main(int argc, char** argv) {
     (void)argc;
