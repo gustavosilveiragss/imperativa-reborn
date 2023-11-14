@@ -26,7 +26,7 @@
       "command": "${command:cmake.launchTargetPath}",
       "detail": "run cmake output",
       "problemMatcher": [],
-      "args": ["input.txt", "output.txt"],
+      "args": ["input/input.txt", "output/output.txt"],
       "presentation": {
         "echo": false,
         "reveal": "always",
