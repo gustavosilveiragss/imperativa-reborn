@@ -1,0 +1,69 @@
+{
+	"version": 6,
+	"configurePresets": [
+		{
+			"name": "base",
+			"hidden": true,
+			"binaryDir": "${sourceDir}/build",
+			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": true
+			}
+		},
+		{
+			"name": "llvm",
+			"displayName": "llvm",
+			"inherits": [
+				"base"
+			],
+			"generator": "Ninja Multi-Config",
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang",
+				"CMAKE_CXX_COMPILER": "clang++"
+			}
+		},
+		{
+			"name": "gcc",
+			"displayName": "gcc",
+			"inherits": [
+				"base"
+			],
+			"generator": "Ninja Multi-Config",
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "gcc",
+				"CMAKE_CXX_COMPILER": "g++"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "llvm - release",
+			"configurePreset": "llvm",
+			"configuration": "Release"
+		},
+		{
+			"name": "llvm - debug",
+			"configurePreset": "llvm",
+			"configuration": "Debug"
+		},
+		{
+			"name": "llvm - release with debug info",
+			"configurePreset": "llvm",
+			"configuration": "RelWithDebInfo"
+		},
+		{
+			"name": "gcc - release",
+			"configurePreset": "gcc",
+			"configuration": "Release"
+		},
+		{
+			"name": "gcc - debug",
+			"configurePreset": "gcc",
+			"configuration": "Debug"
+		},
+		{
+			"name": "gcc - release with debug info",
+			"configurePreset": "gcc",
+			"configuration": "RelWithDebInfo"
+		}
+	]
+}
