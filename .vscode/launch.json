@@ -6,7 +6,7 @@
       "request": "launch",
       "name": "lldb debug",
       "program": "${command:cmake.launchTargetPath}",
-      "args": [],
+      "args": ["input/input", "output/output.txt"],
       "cwd": "${workspaceFolder}",
       "stopOnEntry": false
     }
