@@ -18,14 +18,31 @@ void printMenu() {
 }
 
 AccountNode* readBinary(const char* input) {
-    (void)input;
+    FILE* file = fopen(input, "rb");
+    if (!file) {
+        perror(strerror(errno));
+        return NULL;
+    }
+
+    AccountNode* head = NULL;
+    Account data = {0};
+    while (fread(&data, sizeof(Account), 1, file) == 1) {
+        if (head == NULL)
+            head = createAccountNode(data);
+        else
+            append(&head, data);
+    }
+
+    fclose(file);
+
     // -------- MOCK DATA --------
-    Account acc1 = { 1, "John", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    Account acc2 = { 2, "Mary", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    Account acc3 = { 3, "Peter", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    AccountNode* head = createAccountNode(acc1);
-    AccountNode* acc2Node = prepend(&head, acc2);
-    append(&acc2Node, acc3);
+    // (void)input;
+    // Account acc1 = { 1, "John", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
+    // Account acc2 = { 2, "Mary", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
+    // Account acc3 = { 3, "Peter", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
+    // AccountNode* head = createAccountNode(acc1);
+    // AccountNode* acc2Node = prepend(&head, acc2);
+    // append(&acc2Node, acc3);
 
     return head;
 }
@@ -116,8 +133,18 @@ void displayAccountDetails(AccountNode* head) {
     displayAccount(&node->data);
 }
 
-void writeBinary(const char* output) {
-    (void)output;
+void writeBinary(AccountNode* head, const char* output) {
+    FILE* file = fopen(output, "wb");
+    if (!file) {
+        perror(strerror(errno));
+        return;
+    }
+
+    for (AccountNode* curr = head; curr != NULL; curr = curr->next) {
+        fwrite(&curr->data, sizeof(Account), 1, file);
+    }
+
+    fclose(file);
 }
 
 int main(int argc, char** argv) {
@@ -160,7 +187,7 @@ int main(int argc, char** argv) {
         }
         case 5: {
             // Exit
-            writeBinary(argv[OUTPUT_ARG_INDEX]);
+            writeBinary(head, argv[OUTPUT_ARG_INDEX]);
             free(head);
             exit(0);
             break;
@@ -173,7 +200,7 @@ int main(int argc, char** argv) {
     } while (choice != 5);
 
     // Write binary
-    writeBinary(argv[OUTPUT_ARG_INDEX]);
+    writeBinary(head, argv[OUTPUT_ARG_INDEX]);
     free(head);
 
     return 0;
