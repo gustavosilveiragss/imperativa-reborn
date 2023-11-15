@@ -1,5 +1,6 @@
 #include "AccountNode.h"
 #include "Account.h"
+#include <stdlib.h>
 
 AccountNode* createAccountNode(Account data) {
     AccountNode* newNode = malloc(sizeof(AccountNode));
@@ -32,7 +33,7 @@ AccountNode* prepend(AccountNode** at, Account data) {
     if (newNode->prev != NULL)
         newNode->prev->next = newNode;
     *at = newNode;
-    
+
     return newNode;
 }
 
@@ -44,14 +45,14 @@ AccountNode* append(AccountNode** at, Account data) {
         *at = newNode;
         return newNode;
     }
- 
+
     newNode->next = (*at)->next;
     (*at)->next = newNode;
     newNode->prev = *at;
-    
+
     if (newNode->next != NULL)
         newNode->next->prev = newNode;
-    
+
     return newNode;
 }
 
@@ -99,20 +100,22 @@ void sort(AccountNode** accountNode) {
 }
 
 // Delete a node from the list
-void deleteNode(AccountNode* at) {
-    if (at == NULL) {
+void deleteNode(AccountNode** head, AccountNode* at) {
+    /* base case */
+    if (*head == NULL || at == NULL) {
         printf("Node to delete is NULL\n");
         return;
     }
 
-    if (at->prev == NULL && at->next != NULL) {
-        at->next->prev = NULL;
-    } else {
+    if (*head == at)
+        *head = at->next;
+
+    if (at->next != NULL)
+        at->next->prev = at->prev;
+
+    if (at->prev != NULL)
         at->prev->next = at->next;
 
-        if (at->next != NULL)
-            at->next->prev = at->prev;
-    }
-
     free(at);
+    return;
 }

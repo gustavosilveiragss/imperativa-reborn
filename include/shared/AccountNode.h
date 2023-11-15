@@ -30,4 +30,4 @@ void swap(AccountNode* rptr, AccountNode* lptr);
 void sort(AccountNode** accountNode);
 
 // Delete a node from the list
-void deleteNode(AccountNode* at);
+void deleteNode(AccountNode** head, AccountNode* at);
