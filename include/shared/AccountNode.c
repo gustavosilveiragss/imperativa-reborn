@@ -56,14 +56,30 @@ AccountNode* append(AccountNode** at, Account data) {
     return newNode;
 }
 
+// Get a node by Account id
+AccountNode* getById(AccountNode* head, usize id) {
+    if (head == NULL) {
+        printf("List is empty\n");
+        return NULL;
+    }
+
+    for (AccountNode* curr = head; curr != NULL; curr = curr->next) {
+        if (curr->data.id == id)
+            return curr;
+    }
+
+    return NULL;
+}
+
 // Display the doubly linked list
 void displayList(AccountNode* at) {
     if (at == NULL) {
         printf("List is empty\n");
         return;
     }
-    for (AccountNode* accNode = at; accNode != NULL; accNode = accNode->next) {
-        printf("%zu %s\n", accNode->data.id, accNode->data.name);
+    
+    for (AccountNode* curr = at; curr != NULL; curr = curr->next) {
+        displayAccount(&curr->data);
     }
 }
 

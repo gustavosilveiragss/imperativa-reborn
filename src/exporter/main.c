@@ -10,13 +10,6 @@ int main(int argc, char** argv) {
     assert(argc == 3);
     
     // Read binary
-    // const char* input = argv[INPUT_ARG_INDEX];
-    // FILE* file = fopen(input, "w+");
-    // if (!file) {
-    //     perror(strerror(errno));
-    //     return 1;
-    // }
-
     // Write data into a linked list
 
     // -------- MOCK DATA --------
@@ -37,7 +30,7 @@ int main(int argc, char** argv) {
     }
 
     for (AccountNode* curr = head; curr != NULL; curr = curr->next) {
-        fprintf(outputFile, "%zu %s %zu %f %s %s %s\n",
+        fprintf(outputFile, "%zu %s %zu %.2f %s %s %s\n",
                curr->data.id,
                curr->data.name,
                curr->data.level,

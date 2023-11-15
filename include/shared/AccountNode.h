@@ -1,5 +1,6 @@
 #pragma once
 
+#include "shared/types.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <shared/Account.h>
@@ -14,13 +15,16 @@ struct AccountNode {
 // Create a new account node
 AccountNode* createAccountNode(Account data);
 
-// Insert a node at the beginning of the linked list
+// Insert a node before a given node
 AccountNode* prepend(AccountNode** at, Account data);
 
-// Insert a node at the end of the list
+// Insert a node after a given node
 AccountNode* append(AccountNode** at, Account data);
 
-// Display the doubly linked list
+// Get a node by Account id
+AccountNode* getById(AccountNode* head, usize id);
+
+// Display the doubly linked list from a given node
 void displayList(AccountNode* at);
 
 // Swap two nodes

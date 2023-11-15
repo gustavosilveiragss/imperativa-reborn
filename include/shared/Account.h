@@ -4,10 +4,13 @@
 
 typedef struct {
     usize id;
-    const char* name;
+    char* name;
     usize level;
     f32 balance;
-    const char* email;
-    const char* creationDate;
-    const char* lastLoginDate;
+    char* email;
+    char* creationDate;
+    char* lastLoginDate;
 } Account;
+
+// Display an account's data
+void displayAccount(Account* account);
