@@ -1,22 +1,31 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(reborn LANGUAGES C)
+project(imperative LANGUAGES C)
 
-include(cmake/compile_options.cmake)
+set(COMPILE_OPTIONS
+    -pedantic
+    -Wall
+    -Werror
+    -Wextra
+)
 
-function(add_target name)
+# the shared library that is used by all 3 executables
+add_library(shared SHARED)
+target_sources(shared PUBLIC
+    lib/shared/src/Account.c
+    lib/shared/src/AccountNode.c
+    lib/shared/src/util.c
+)
+target_include_directories(shared PUBLIC lib/shared/include)
+target_compile_options(shared PRIVATE ${COMPILE_OPTIONS})
+
+function(add_standard_executable name)
     add_executable(${name})
-    target_sources(${name} PRIVATE
-        include/shared/Account.c
-        include/shared/AccountNode.c
-        src/${name}/main.c
-        ${ARGN}
-    )
+    target_sources(${name} PRIVATE src/${name}/main.c)
     target_compile_options(${name} PRIVATE ${COMPILE_OPTIONS})
-    target_include_directories(${name} PRIVATE include/)
+    target_link_libraries(${name} PRIVATE shared)
 endfunction()
 
-# editor
-add_target(editor)
-add_target(exporter)
-add_target(generator)
+add_standard_executable(editor)
+add_standard_executable(exporter)
+add_standard_executable(generator)

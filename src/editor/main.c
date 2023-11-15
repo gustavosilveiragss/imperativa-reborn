@@ -1,14 +1,14 @@
-#include "shared/types.h"
 #include <errno.h>
 #include <stdio.h>
 #include <assert.h>
 #include <shared/args.h>
 #include <shared/Account.h>
 #include <shared/AccountNode.h>
+#include <shared/util.h>
 #include <stdlib.h>
 #include <string.h>
 
-void printMenu() {
+static void print_options(void) {
     printf("\nOptions:\n");
     printf("1. Add new account\n");
     printf("2. Remove account\n");
@@ -17,177 +17,100 @@ void printMenu() {
     printf("5. Exit\n\n");
 }
 
-AccountNode* readBinary(const char* input) {
-    FILE* file = fopen(input, "rb");
-    if (!file) {
-        perror(strerror(errno));
-        return NULL;
+static void add_account(AccountNode* head) {
+    Account acc = acc_new_from_input();
+    if (accnode_find_by_id(head, acc.id) != NULL) {
+        printf("Account with id %zu already exists\n", acc.id);
+        return;
     }
 
-    AccountNode* head = NULL;
-    Account data = { 0 };
-    while (fread(&data, sizeof(Account), 1, file) == 1) {
-        if (head == NULL)
-            head = createAccountNode(data);
-        else
-            append(&head, data);
-    }
+    AccountNode* node = NULL;
+    do {
+        u_prompt("Choose an account's id to insert after");
+        accnode_display(head);
+        node = accnode_find_by_id_from_input(head);
+    } while (node == NULL);
 
-    fclose(file);
+    accnode_append(&node, acc);
 
-    // -------- MOCK DATA --------
-    // (void)input;
-    // Account acc1 = { 1, "John", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    // Account acc2 = { 2, "Mary", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    // Account acc3 = { 3, "Peter", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    // AccountNode* head = createAccountNode(acc1);
-    // AccountNode* acc2Node = prepend(&head, acc2);
-    // append(&acc2Node, acc3);
+    u_prompt("Account added successfully.");
 
-    return head;
+    accnode_sort_by_id(&head);
+    accnode_display(head);
 }
 
-AccountNode* getNodeByIdInput(AccountNode* at) {
-    usize id = 0;
-    printf("Enter id: ");
-    scanf("%zu", &id);
-    printf("\n");
+static void delete_account(AccountNode* head) {
+    AccountNode* node = NULL;
+    do {
+        u_prompt("Choose an account's id to delete:");
+        accnode_display(head);
+        node = accnode_find_by_id_from_input(head);
+    } while (node == NULL);
 
-    AccountNode* node = getById(at, id);
+    if (node == head) {
+        u_prompt("The first account cannot be deleted!");
+        return;
+    }
 
+    accnode_remove(&head, node);
+
+    u_prompt("Account deleted successfully.");
+
+    accnode_sort_by_id(&head);
+    accnode_display(head);
+}
+
+static void display_account_details(AccountNode* head) {
+    u_prompt("Choose an id to display:");
+    accnode_display(head);
+
+    AccountNode* node = accnode_find_by_id_from_input(head);
     if (node == NULL) {
-        printf("Account not found\n");
-        return NULL;
-    }
-
-    return node;
-}
-
-void addNewAccount(AccountNode* head) {
-    Account* acc = malloc(sizeof(Account));
-
-    if (acc == NULL) {
-        printf("Memory allocation failed\n");
-        exit(1);
-    }
-
-    printf("Enter account details:\n");
-    printf("Id: ");
-    scanf("%zu", &acc->id);
-
-    if (getById(head, acc->id) != NULL) {
-        printf("Account with id %zu already exists\n", acc->id);
+        u_prompt("Account not found!");
         return;
     }
 
-    printf("Name: ");
-    scanf("%s", acc->name);
-    printf("Level: ");
-    scanf("%zu", &acc->level);
-    printf("Balance: ");
-    scanf("%f", &acc->balance);
-    printf("Email: ");
-    scanf("%s", acc->email);
-    printf("Creation Date (dd/mm/yyyy): ");
-    scanf("%s", acc->creationDate);
-    printf("Last Login Date (dd/mm/yyyy): ");
-    scanf("%s", acc->lastLoginDate);
-
-    printf("\nChoose an account's id to insert after\n");
-    displayList(head);
-
-    AccountNode* node = getNodeByIdInput(head);
-    if (node == NULL)
-        return;
-
-    append(&node, *acc);
-
-    printf("\nAccount added successfully:\n");
-    sort(&head);
-    displayList(head);
-}
-
-void deleteAccount(AccountNode* head) {
-    printf("\nChoose an account's id to delete\n");
-    displayList(head);
-
-    AccountNode* node = getNodeByIdInput(head);
-    if (node == NULL)
-        return;
-
-    deleteNode(&head, node);
-
-    printf("\nAccount deleted successfully:\n");
-    sort(&head);
-    displayList(head);
-}
-
-void displayAccountDetails(AccountNode* head) {
-    printf("\nChoose an id to display\n");
-    displayList(head);
-
-    AccountNode* node = getNodeByIdInput(head);
-    if (node == NULL)
-        return;
-
-    displayAccount(&node->data);
-}
-
-void writeBinary(AccountNode* head, const char* output) {
-    FILE* file = fopen(output, "wb");
-    if (!file) {
-        perror(strerror(errno));
-        return;
-    }
-
-    for (AccountNode* curr = head; curr != NULL; curr = curr->next) {
-        fwrite(&curr->data, sizeof(Account), 1, file);
-    }
-
-    fclose(file);
+    acc_display(&node->data);
 }
 
 int main(int argc, char** argv) {
-    assert(argc == 3);
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <input file> <output file>\n", argv[0]);
+        return 1;
+    }
 
-    AccountNode* head = readBinary(argv[INPUT_ARG]);
+    FILE* input_file = fopen(argv[INPUT_ARG], "rb");
+    AccountNode* head = accnode_new_from_binary_file(input_file);
+    fclose(input_file);
 
-    sort(&head);
+    accnode_sort_by_id(&head);
 
-    // CLI
+    // cli loop
     int choice = 0;
     do {
-        printMenu();
+        print_options();
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
         case 1: {
-            // Add new account
-            addNewAccount(head);
+            add_account(head);
             break;
         }
         case 2: {
-            // Remove account
-            deleteAccount(head);
+            delete_account(head);
             break;
         }
         case 3: {
-            // Display account details
-            displayAccountDetails(head);
+            display_account_details(head);
             break;
         }
         case 4: {
-            // Display all accounts
-            printf("\n");
-            displayList(head);
+            accnode_display(head);
             break;
         }
         case 5: {
-            // Exit
-            writeBinary(head, argv[OUTPUT_ARG]);
-            free(head);
-            exit(0);
+            goto done;
             break;
         }
         default: {
@@ -197,9 +120,11 @@ int main(int argc, char** argv) {
         }
     } while (choice != 5);
 
-    // Write binary
-    writeBinary(head, argv[OUTPUT_ARG]);
-    free(head);
+done : {
+    FILE* output_file = fopen(argv[OUTPUT_ARG], "wb+");
+    accnode_dump_to_binary_file(head, output_file);
+    fclose(output_file);
 
     return 0;
+}
 }

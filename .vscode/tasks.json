@@ -98,7 +98,7 @@
       "label": "run editor",
       "command": "${command:cmake.buildDirectory}/${command:cmake.buildType}/editor",
       "problemMatcher": [],
-      "args": ["data/data.bin", "data/data.txt"],
+      "args": ["data/data.bin", "data/data.bin"],
       "presentation": {
         "echo": false,
         "reveal": "always",

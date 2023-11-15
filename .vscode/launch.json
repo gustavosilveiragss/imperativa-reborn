@@ -15,7 +15,7 @@
       "request": "launch",
       "name": "debug exporter",
       "program": "${command:cmake.buildDirectory}/${command:cmake.buildType}/exporter",
-      "args": ["data/data.bin", "data/data.bin"],
+      "args": ["data/data.bin", "data/data.txt"],
       "cwd": "${workspaceFolder}",
       "stopOnEntry": false
     },
@@ -24,7 +24,7 @@
       "request": "launch",
       "name": "debug editor",
       "program": "${command:cmake.buildDirectory}/${command:cmake.buildType}/editor",
-      "args": ["data/data.bin", "data/data.txt"],
+      "args": ["data/data.bin", "data/data.bin"],
       "cwd": "${workspaceFolder}",
       "stopOnEntry": false
     }
