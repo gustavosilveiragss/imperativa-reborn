@@ -2,14 +2,17 @@
 
 #include <shared/types.h>
 
-typedef struct {
+#define MAX_STRING_LENGTH 64
+#define NUM_ACCOUNT_MEMBERS 7
+
+typedef struct Account {
     usize id;
-    char name[64];
+    char name[MAX_STRING_LENGTH];
     usize level;
     f32 balance;
-    char email[64];
-    char creationDate[64];
-    char lastLoginDate[64];
+    char email[MAX_STRING_LENGTH];
+    char creationDate[MAX_STRING_LENGTH];
+    char lastLoginDate[MAX_STRING_LENGTH];
 } Account;
 
 // Display an account's data

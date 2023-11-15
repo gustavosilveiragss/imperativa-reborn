@@ -4,9 +4,27 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "lldb debug",
-      "program": "${command:cmake.launchTargetPath}",
-      "args": ["output/output.bin", "output/output.bin"],
+      "name": "debug generator",
+      "program": "${command:cmake.buildDirectory}/${command:cmake.buildType}/generator",
+      "args": ["data/data.txt", "data/data.bin"],
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": false
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "debug exporter",
+      "program": "${command:cmake.buildDirectory}/${command:cmake.buildType}/exporter",
+      "args": ["data/data.bin", "data/data.bin"],
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": false
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "debug editor",
+      "program": "${command:cmake.buildDirectory}/${command:cmake.buildType}/editor",
+      "args": ["data/data.bin", "data/data.txt"],
       "cwd": "${workspaceFolder}",
       "stopOnEntry": false
     }

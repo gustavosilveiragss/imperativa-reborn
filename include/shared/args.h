@@ -1,2 +1,2 @@
-#define INPUT_ARG_INDEX 1
-#define OUTPUT_ARG_INDEX 2
+#define INPUT_ARG 1
+#define OUTPUT_ARG 2

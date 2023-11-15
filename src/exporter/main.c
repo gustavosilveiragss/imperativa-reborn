@@ -8,39 +8,36 @@
 
 int main(int argc, char** argv) {
     assert(argc == 3);
-    
-    // Read binary
-    // Write data into a linked list
 
-    // -------- MOCK DATA --------
-    Account acc1 = { 1, "John", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    Account acc2 = { 2, "Mary", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    Account acc3 = { 3, "Peter", 1000, 1000, "a@gmail.com", "1234567890", "1234567890" };
-    AccountNode* head = createAccountNode(acc1);
-    AccountNode* acc2Node = append(&head, acc2);
-    append(&acc2Node, acc3);
-
-    // Write data into an output txt file
-
-    const char* output = argv[OUTPUT_ARG_INDEX];
-    FILE* outputFile = fopen(output, "w");
-    if (!outputFile) {
+    FILE* input_file = fopen(argv[INPUT_ARG], "rb");
+    if (!input_file) {
         perror(strerror(errno));
         return 1;
     }
 
-    for (AccountNode* curr = head; curr != NULL; curr = curr->next) {
-        fprintf(outputFile, "%zu %s %zu %.2f %s %s %s\n",
-               curr->data.id,
-               curr->data.name,
-               curr->data.level,
-               curr->data.balance,
-               curr->data.email,
-               curr->data.creationDate,
-               curr->data.lastLoginDate);
-    }
+    // calculate the amount of elements in the file based on its size
+    // doing this allows us to perform a single allocation for the entire buffer
 
-    fclose(outputFile);
+    fseek(input_file, 0, SEEK_END);
+    const long file_size = ftell(input_file);
+    assert(file_size % sizeof(Account) == 0);
+
+    const size_t num_elements = file_size / sizeof(Account);
+
+    Account* buffer = calloc(num_elements, sizeof(Account));
+
+    // we seeked to the end so we have to make sure we go back to the start before reading it
+    rewind(input_file);
+
+    // read the whole thing into the buffer
+    fread(buffer, sizeof(Account), num_elements, input_file);
+
+    // create a linked list from it
+    AccountNode* head = createAccountNode(buffer[0]);
+    for (size_t i = 1; i < num_elements; i++)
+        append(&head, buffer[i]);
+
+    displayList(head);
 
     return 0;
 }

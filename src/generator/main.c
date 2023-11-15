@@ -7,7 +7,7 @@
 int main(int argc, char** argv) {
     assert(argc == 3);
 
-    const char* input = argv[INPUT_ARG_INDEX];
+    const char* input = argv[INPUT_ARG];
     FILE* file = fopen(input, "w+");
     if (!file) {
         perror(strerror(errno));

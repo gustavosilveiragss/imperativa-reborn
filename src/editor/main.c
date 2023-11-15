@@ -25,7 +25,7 @@ AccountNode* readBinary(const char* input) {
     }
 
     AccountNode* head = NULL;
-    Account data = {0};
+    Account data = { 0 };
     while (fread(&data, sizeof(Account), 1, file) == 1) {
         if (head == NULL)
             head = createAccountNode(data);
@@ -150,13 +150,11 @@ void writeBinary(AccountNode* head, const char* output) {
 int main(int argc, char** argv) {
     assert(argc == 3);
 
-    // Read binary
-    AccountNode* head = readBinary(argv[INPUT_ARG_INDEX]);
-
-    // CLI
+    AccountNode* head = readBinary(argv[INPUT_ARG]);
 
     sort(&head);
 
+    // CLI
     int choice = 0;
     do {
         printMenu();
@@ -187,7 +185,7 @@ int main(int argc, char** argv) {
         }
         case 5: {
             // Exit
-            writeBinary(head, argv[OUTPUT_ARG_INDEX]);
+            writeBinary(head, argv[OUTPUT_ARG]);
             free(head);
             exit(0);
             break;
@@ -200,7 +198,7 @@ int main(int argc, char** argv) {
     } while (choice != 5);
 
     // Write binary
-    writeBinary(head, argv[OUTPUT_ARG_INDEX]);
+    writeBinary(head, argv[OUTPUT_ARG]);
     free(head);
 
     return 0;

@@ -3,14 +3,11 @@
   "tasks": [
     {
       "type": "cmake",
-      "label": "cmake",
+      "label": "build generator",
       "command": "build",
       "preset": "${command:cmake.activeBuildPresetName}",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "detail": "cmake build task",
+      "group": "build",
+      "targets": ["generator"],
       "presentation": {
         "echo": false,
         "reveal": "always",
@@ -22,11 +19,10 @@
     },
     {
       "type": "shell",
-      "label": "run",
-      "command": "${command:cmake.launchTargetPath}",
-      "detail": "run cmake output",
+      "label": "run generator",
+      "command": "${command:cmake.buildDirectory}/${command:cmake.buildType}/generator",
       "problemMatcher": [],
-      "args": ["input/input.txt", "output/output.txt"],
+      "args": ["data/data.txt", "data/data.bin"],
       "presentation": {
         "echo": false,
         "reveal": "always",
@@ -35,6 +31,89 @@
         "showReuseMessage": true,
         "clear": true
       }
+    },
+    {
+      "label": "build + run generator",
+      "type": "shell",
+      "dependsOn": ["build generator", "run generator"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "type": "cmake",
+      "label": "build exporter",
+      "command": "build",
+      "preset": "${command:cmake.activeBuildPresetName}",
+      "group": "build",
+      "targets": ["exporter"],
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "type": "shell",
+      "label": "run exporter",
+      "command": "${command:cmake.buildDirectory}/${command:cmake.buildType}/exporter",
+      "problemMatcher": [],
+      "args": ["data/data.bin", "data/data.txt"],
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "build + run exporter",
+      "type": "shell",
+      "dependsOn": ["build exporter", "run exporter"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "type": "cmake",
+      "label": "build editor",
+      "command": "build",
+      "preset": "${command:cmake.activeBuildPresetName}",
+      "group": "build",
+      "targets": ["editor"],
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    },
+    {
+      "type": "shell",
+      "label": "run editor",
+      "command": "${command:cmake.buildDirectory}/${command:cmake.buildType}/editor",
+      "problemMatcher": [],
+      "args": ["data/data.bin", "data/data.txt"],
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "build + run editor",
+      "type": "shell",
+      "dependsOn": ["build editor", "run editor"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     }
   ]
 }
