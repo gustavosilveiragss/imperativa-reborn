@@ -11,7 +11,7 @@ set(COMPILE_OPTIONS
 
 # the shared library that is used by all 3 executables
 add_library(shared SHARED)
-target_sources(shared PUBLIC
+target_sources(shared PRIVATE
     lib/shared/src/Account.c
     lib/shared/src/AccountNode.c
     lib/shared/src/util.c
