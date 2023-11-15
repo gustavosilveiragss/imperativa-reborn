@@ -1,12 +1,8 @@
-#include <errno.h>
 #include <stdio.h>
-#include <assert.h>
 #include <shared/args.h>
 #include <shared/Account.h>
 #include <shared/AccountNode.h>
 #include <shared/util.h>
-#include <stdlib.h>
-#include <string.h>
 
 static void print_options(void) {
     printf("Options:\n");
@@ -41,8 +37,6 @@ static void add_account(AccountNode* head) {
 }
 
 static void delete_account(AccountNode** head) {
-    assert(head);
-
     AccountNode* node = NULL;
     while (node == NULL) {
         u_prompt("Pick one id to delete...");

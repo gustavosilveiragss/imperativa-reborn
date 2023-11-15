@@ -1,7 +1,4 @@
 #include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <assert.h>
 #include <shared/args.h>
 #include <shared/AccountNode.h>
 
