@@ -69,7 +69,6 @@ AccountNode* accnode_find_by_id_from_input(AccountNode* node) {
     size_t id = 0;
     printf("Enter id: ");
     scanf("%zu", &id);
-    printf("\n");
 
     return accnode_find_by_id(node, id);
 }
@@ -79,6 +78,9 @@ void accnode_display(AccountNode* node) {
 
     for (AccountNode* curr = node; curr != NULL; curr = curr->next)
         acc_display(&curr->data);
+
+    // extra newline for clarity
+    putchar('\n');
 }
 
 static void swap(AccountNode* rnode, AccountNode* lnode) {

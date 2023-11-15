@@ -9,7 +9,7 @@
 #include <string.h>
 
 static void print_options(void) {
-    printf("\nOptions:\n");
+    printf("Options:\n");
     printf("1. Add new account\n");
     printf("2. Remove account\n");
     printf("3. Display account details\n");
@@ -20,14 +20,15 @@ static void print_options(void) {
 static void add_account(AccountNode* head) {
     Account acc = acc_new_from_input();
     if (accnode_find_by_id(head, acc.id) != NULL) {
-        printf("Account with id %zu already exists\n", acc.id);
+        u_prompt("Account with id %zu already exists!", acc.id);
         return;
     }
 
     AccountNode* node = NULL;
     do {
-        u_prompt("Choose an account's id to insert after");
+        u_prompt("Pick one id to insert after...");
         accnode_display(head);
+        putchar('\n');
         node = accnode_find_by_id_from_input(head);
     } while (node == NULL);
 
@@ -39,29 +40,30 @@ static void add_account(AccountNode* head) {
     accnode_display(head);
 }
 
-static void delete_account(AccountNode* head) {
+static void delete_account(AccountNode** head) {
+    assert(head);
+
     AccountNode* node = NULL;
     do {
-        u_prompt("Choose an account's id to delete:");
-        accnode_display(head);
-        node = accnode_find_by_id_from_input(head);
+        u_prompt("Pick one id to delete...");
+        accnode_display(*head);
+        node = accnode_find_by_id_from_input(*head);
     } while (node == NULL);
 
-    if (node == head) {
-        u_prompt("The first account cannot be deleted!");
-        return;
-    }
+    accnode_remove(head, node);
 
-    accnode_remove(&head, node);
+    if (node == *head)
+        *head = node;
 
     u_prompt("Account deleted successfully.");
 
-    accnode_sort_by_id(&head);
-    accnode_display(head);
+    accnode_sort_by_id(head);
+    accnode_display(*head);
 }
 
 static void display_account_details(AccountNode* head) {
-    u_prompt("Choose an id to display:");
+    u_prompt("Pick one id to display...");
+
     accnode_display(head);
 
     AccountNode* node = accnode_find_by_id_from_input(head);
@@ -71,6 +73,9 @@ static void display_account_details(AccountNode* head) {
     }
 
     acc_display(&node->data);
+
+    // extra newline for clarity
+    putchar('\n');
 }
 
 int main(int argc, char** argv) {
@@ -98,7 +103,7 @@ int main(int argc, char** argv) {
             break;
         }
         case 2: {
-            delete_account(head);
+            delete_account(&head);
             break;
         }
         case 3: {
