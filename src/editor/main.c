@@ -25,12 +25,12 @@ static void add_account(AccountNode* head) {
     }
 
     AccountNode* node = NULL;
-    do {
+    while (node == NULL) {
         u_prompt("Pick one id to insert after...");
         accnode_display(head);
         putchar('\n');
         node = accnode_find_by_id_from_input(head);
-    } while (node == NULL);
+    }
 
     accnode_append(&node, acc);
 
@@ -44,11 +44,11 @@ static void delete_account(AccountNode** head) {
     assert(head);
 
     AccountNode* node = NULL;
-    do {
+    while (node == NULL) {
         u_prompt("Pick one id to delete...");
         accnode_display(*head);
         node = accnode_find_by_id_from_input(*head);
-    } while (node == NULL);
+    };
 
     accnode_remove(head, node);
 
