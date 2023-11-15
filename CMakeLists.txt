@@ -7,6 +7,7 @@ include(cmake/compile_options.cmake)
 function(add_target name)
     add_executable(${name})
     target_sources(${name} PRIVATE
+        include/shared/AccountNode.c
         src/${name}/main.c
         ${ARGN}
     )
