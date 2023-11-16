@@ -28,9 +28,6 @@ void accnode_dump_to_text_file(AccountNode*, FILE*);
 // Display the doubly linked list starting from a given node
 void accnode_display(AccountNode*);
 
-// Insert a node before a given node
-AccountNode* accnode_prepend(AccountNode**, Account data);
-
 // Insert a node after a given node
 AccountNode* accnode_append(AccountNode**, Account data);
 

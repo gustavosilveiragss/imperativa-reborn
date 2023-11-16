@@ -15,26 +15,6 @@ AccountNode* accnode_new(Account data) {
     return new_node;
 }
 
-AccountNode* accnode_prepend(AccountNode** node, Account data) {
-    assert(node);
-
-    AccountNode* new_node = accnode_new(data);
-    if (*node == NULL) {
-        *node = new_node;
-        return new_node;
-    }
-
-    new_node->data = data;
-    new_node->prev = (*node)->prev;
-    (*node)->prev = new_node;
-    new_node->next = *node;
-    if (new_node->prev != NULL)
-        new_node->prev->next = new_node;
-    *node = new_node;
-
-    return new_node;
-}
-
 AccountNode* accnode_append(AccountNode** node, Account data) {
     assert(node);
 
