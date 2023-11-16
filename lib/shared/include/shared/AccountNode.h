@@ -17,16 +17,16 @@ AccountNode* accnode_new(Account data);
 AccountNode* accnode_new_from_binary_file(FILE*);
 
 // Dump the list into a binary stream starting from a given node
-void accnode_dump_to_binary_file(AccountNode*, FILE*);
+void accnode_dump_to_binary_file(const AccountNode*, FILE*);
 
 // Make a new list from a textual stream
 AccountNode* accnode_new_from_text_file(FILE*);
 
 // Dump the list into a text stream starting from a given node
-void accnode_dump_to_text_file(AccountNode*, FILE*);
+void accnode_dump_to_text_file(const AccountNode*, FILE*);
 
 // Display the linked list starting from a given node
-void accnode_display(AccountNode*);
+void accnode_display(const AccountNode*);
 
 // Insert a node after a given node
 AccountNode* accnode_append(AccountNode**, Account data);

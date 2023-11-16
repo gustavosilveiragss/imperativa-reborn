@@ -53,10 +53,10 @@ AccountNode* accnode_find_by_id_from_input(AccountNode* node) {
     return accnode_find_by_id(node, id);
 }
 
-void accnode_display(AccountNode* node) {
+void accnode_display(const AccountNode* node) {
     assert(node);
 
-    for (AccountNode* curr = node; curr != NULL; curr = curr->next)
+    for (const AccountNode* curr = node; curr != NULL; curr = curr->next)
         acc_display(&curr->data);
 
     // extra newline for clarity
@@ -126,10 +126,10 @@ AccountNode* accnode_new_from_binary_file(FILE* file) {
     return head;
 }
 
-void accnode_dump_to_binary_file(AccountNode* node, FILE* file) {
+void accnode_dump_to_binary_file(const AccountNode* node, FILE* file) {
     assert(node && file);
 
-    for (AccountNode* curr = node; curr != NULL; curr = curr->next)
+    for (const AccountNode* curr = node; curr != NULL; curr = curr->next)
         acc_dump_to_binary_file(&curr->data, file);
 }
 
@@ -150,9 +150,9 @@ AccountNode* accnode_new_from_text_file(FILE* file) {
     return head;
 }
 
-void accnode_dump_to_text_file(AccountNode* node, FILE* file) {
+void accnode_dump_to_text_file(const AccountNode* node, FILE* file) {
     assert(node && file);
 
-    for (AccountNode* curr = node; curr != NULL; curr = curr->next)
+    for (const AccountNode* curr = node; curr != NULL; curr = curr->next)
         acc_dump_to_text_file(&curr->data, file);
 }

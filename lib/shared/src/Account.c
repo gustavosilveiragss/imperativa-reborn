@@ -1,18 +1,6 @@
 #include <shared/Account.h>
 #include <assert.h>
 
-// Display an account's data
-void acc_display(Account* acc) {
-    printf("[%zu] %s %zu %.2f %s %s %s\n",
-           acc->id,
-           acc->name,
-           acc->level,
-           acc->balance,
-           acc->email,
-           acc->creation_date,
-           acc->last_login_date);
-}
-
 Account acc_new_from_input(void) {
     Account acc;
 
@@ -35,6 +23,16 @@ Account acc_new_from_input(void) {
     return acc;
 }
 
+bool acc_new_from_binary_file(Account* account, FILE* file) {
+    assert(account && file);
+    return fread(account, sizeof(Account), 1, file) == 1;
+}
+
+void acc_dump_to_binary_file(const Account* account, FILE* file) {
+    assert(account && file);
+    fwrite(account, sizeof(Account), 1, file);
+}
+
 bool acc_new_from_text_file(Account* account, FILE* file) {
     assert(account && file);
     return fscanf(file,
@@ -48,17 +46,7 @@ bool acc_new_from_text_file(Account* account, FILE* file) {
                   account->last_login_date) == 7;
 }
 
-bool acc_new_from_binary_file(Account* account, FILE* file) {
-    assert(account && file);
-    return fread(account, sizeof(Account), 1, file) == 1;
-}
-
-void acc_dump_to_binary_file(Account* account, FILE* file) {
-    assert(account && file);
-    fwrite(account, sizeof(Account), 1, file);
-}
-
-void acc_dump_to_text_file(Account* account, FILE* file) {
+void acc_dump_to_text_file(const Account* account, FILE* file) {
     fprintf(file,
             "%zu %s %zu %.2f %s %s %s\n",
             account->id,
@@ -68,4 +56,15 @@ void acc_dump_to_text_file(Account* account, FILE* file) {
             account->email,
             account->creation_date,
             account->last_login_date);
+}
+
+void acc_display(const Account* acc) {
+    printf("[%zu] %s %zu %.2f %s %s %s\n",
+           acc->id,
+           acc->name,
+           acc->level,
+           acc->balance,
+           acc->email,
+           acc->creation_date,
+           acc->last_login_date);
 }
