@@ -25,11 +25,14 @@ AccountNode* accnode_new_from_text_file(FILE*);
 // Dump the list into a text stream starting from a given node
 void accnode_dump_to_text_file(AccountNode*, FILE*);
 
-// Display the doubly linked list starting from a given node
+// Display the linked list starting from a given node
 void accnode_display(AccountNode*);
 
 // Insert a node after a given node
 AccountNode* accnode_append(AccountNode**, Account data);
+
+// Delete a node from the list
+void accnode_remove(AccountNode** head, AccountNode*);
 
 // Try finding a node by Account id starting from a given node
 AccountNode* accnode_find_by_id(AccountNode*, size_t id);
@@ -39,6 +42,3 @@ AccountNode* accnode_find_by_id_from_input(AccountNode*);
 
 // Sort the given doubly linked list by the Account id starting from a given node
 void accnode_sort_by_id(AccountNode**);
-
-// Delete a node from the list
-void accnode_remove(AccountNode** head, AccountNode*);

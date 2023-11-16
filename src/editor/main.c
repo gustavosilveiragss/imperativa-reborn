@@ -20,15 +20,7 @@ static void add_account(AccountNode* head) {
         return;
     }
 
-    AccountNode* node = NULL;
-    while (node == NULL) {
-        u_prompt("Pick one id to insert after...");
-        accnode_display(head);
-        putchar('\n');
-        node = accnode_find_by_id_from_input(head);
-    }
-
-    accnode_append(&node, acc);
+    accnode_append(&head, acc);
 
     u_prompt("Account added successfully.");
 

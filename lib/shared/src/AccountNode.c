@@ -112,7 +112,7 @@ void accnode_remove(AccountNode** head, AccountNode* node) {
 AccountNode* accnode_new_from_binary_file(FILE* file) {
     assert(file);
 
-    Account data = { 0 };
+    Account data;
     // there must be node least one account in the file so that head can be created
     bool success = acc_new_from_binary_file(&data, file);
     (void)success; // to avoid -Wunused-variable on release
@@ -136,7 +136,7 @@ void accnode_dump_to_binary_file(AccountNode* node, FILE* file) {
 AccountNode* accnode_new_from_text_file(FILE* file) {
     assert(file);
 
-    Account data = { 0 };
+    Account data;
     // there must be node least one account in the file so that head can be created
     bool success = acc_new_from_text_file(&data, file);
     (void)success; // to avoid -Wunused-variable on release
