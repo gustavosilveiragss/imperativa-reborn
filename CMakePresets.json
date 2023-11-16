@@ -39,32 +39,32 @@
 	],
 	"buildPresets": [
 		{
-			"name": "llvm - release",
+			"name": "llvm_release",
 			"configurePreset": "llvm",
 			"configuration": "Release"
 		},
 		{
-			"name": "llvm - debug",
+			"name": "llvm_debug",
 			"configurePreset": "llvm",
 			"configuration": "Debug"
 		},
 		{
-			"name": "llvm - release with debug info",
+			"name": "llvm_release_dbginfo",
 			"configurePreset": "llvm",
 			"configuration": "RelWithDebInfo"
 		},
 		{
-			"name": "gcc - release",
+			"name": "gcc_release",
 			"configurePreset": "gcc",
 			"configuration": "Release"
 		},
 		{
-			"name": "gcc - debug",
+			"name": "gcc_debug",
 			"configurePreset": "gcc",
 			"configuration": "Debug"
 		},
 		{
-			"name": "gcc - release with debug info",
+			"name": "gcc_release_dbginfo",
 			"configurePreset": "gcc",
 			"configuration": "RelWithDebInfo"
 		}
