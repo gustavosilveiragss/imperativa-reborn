@@ -17,6 +17,8 @@ static void add_account(AccountNode* head) {
     Account acc = acc_new_from_input();
     if (accnode_find_by_id(head, acc.id) != NULL) {
         u_prompt("Account with id %zu already exists!", acc.id);
+        // try again
+        add_account(head);
         return;
     }
 
@@ -29,12 +31,16 @@ static void add_account(AccountNode* head) {
 }
 
 static void delete_account(AccountNode** head) {
-    AccountNode* node = NULL;
-    while (node == NULL) {
-        u_prompt("Pick one id to delete...");
-        accnode_display(*head);
-        node = accnode_find_by_id_from_input(*head);
-    };
+    u_prompt("Pick one id to delete...");
+    accnode_display(*head);
+
+    AccountNode* node = accnode_find_by_id_from_input(*head);
+    if (node == NULL) {
+        u_prompt("Account not found!");
+        // try again
+        delete_account(head);
+        return;
+    }
 
     accnode_remove(head, node);
 
@@ -49,12 +55,13 @@ static void delete_account(AccountNode** head) {
 
 static void display_account_details(AccountNode* head) {
     u_prompt("Pick one id to display...");
-
     accnode_display(head);
 
     AccountNode* node = accnode_find_by_id_from_input(head);
     if (node == NULL) {
         u_prompt("Account not found!");
+        // try again
+        accnode_display(head);
         return;
     }
 
