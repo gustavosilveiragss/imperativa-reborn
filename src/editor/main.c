@@ -72,8 +72,8 @@ static void display_account_details(AccountNode* head) {
 }
 
 int main(int argc, char** argv) {
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <input file> <output file>\n", argv[0]);
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <input file>\n", argv[0]);
         return 1;
     }
 
@@ -119,7 +119,8 @@ int main(int argc, char** argv) {
     } while (choice != 5);
 
 done : {
-    FILE* output_file = fopen(argv[OUTPUT_ARG], "wb+");
+    // editor's input is the same as it's ouput :)
+    FILE* output_file = fopen(argv[INPUT_ARG], "wb+");
     accnode_dump_to_binary_file(head, output_file);
     fclose(output_file);
 
