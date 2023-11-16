@@ -15,8 +15,8 @@
 			}
 		},
 		{
-			"name": "llvm",
-			"displayName": "llvm",
+			"name": "clang",
+			"displayName": "clang",
 			"inherits": [
 				"base"
 			],
@@ -39,18 +39,18 @@
 	],
 	"buildPresets": [
 		{
-			"name": "llvm_release",
-			"configurePreset": "llvm",
+			"name": "clang_release",
+			"configurePreset": "clang",
 			"configuration": "Release"
 		},
 		{
-			"name": "llvm_debug",
-			"configurePreset": "llvm",
+			"name": "clang_debug",
+			"configurePreset": "clang",
 			"configuration": "Debug"
 		},
 		{
-			"name": "llvm_release_dbginfo",
-			"configurePreset": "llvm",
+			"name": "clang_release_dbginfo",
+			"configurePreset": "clang",
 			"configuration": "RelWithDebInfo"
 		},
 		{
