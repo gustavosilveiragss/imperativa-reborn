@@ -66,7 +66,6 @@ static void display_account_details(AccountNode* head) {
     }
 
     acc_display(&node->data);
-
     // extra newline for clarity
     putchar('\n');
 }

@@ -59,12 +59,5 @@ void acc_dump_to_text_file(const Account* account, FILE* file) {
 }
 
 void acc_display(const Account* acc) {
-    printf("[%zu] %s %zu %.2f %s %s %s\n",
-           acc->id,
-           acc->name,
-           acc->level,
-           acc->balance,
-           acc->email,
-           acc->creation_date,
-           acc->last_login_date);
+    acc_dump_to_text_file(acc, stdout);
 }
